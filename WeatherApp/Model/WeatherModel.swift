@@ -31,7 +31,7 @@ extension Hourly{
         let formattedDates = time.map { dateString in
             dateFormat.dateFormat = "yyyy-MM-dd'T'HH:mm"
             if let date = dateFormat.date(from: dateString) {
-                dateFormat.dateFormat = "d MMMM yyyy"
+                dateFormat.dateFormat = "d MMMM yyyy, h:mm a"
                 return dateFormat.string(from: date)
             } else {
                 return "Invalid date: \(dateString)"
