@@ -61,15 +61,16 @@ struct HomeView: View {
                             
                         }
                         .padding(.bottom)
-                        Picker(selection: $vm.toFahrenheit) {
-                            Text("°C").tag(0)
-                            Text("°F").tag(1)
-                        } label: {
-                            Text("Unit")
-                        }.pickerStyle(.segmented)
-                            .frame(width: 120)
-                            .padding(.bottom)
+                   
                     }
+                    Picker(selection: $vm.toFahrenheit) {
+                        Text("°C").tag(0)
+                        Text("°F").tag(1)
+                    } label: {
+                        Text("Unit")
+                    }.pickerStyle(.segmented)
+                        .frame(width: 120)
+                        .padding(.bottom)
                  
                 }
                 .padding(.horizontal)
