@@ -14,20 +14,21 @@ struct HomeView: View {
         ZStack {
             NavigationView {
                 VStack{
-                    if vm.hideComponent{
-                        VStack(spacing: 10) {
-                            Image(systemName: "wifi.slash")
-                                .font(.title3)
-                                .foregroundStyle( .red)
-                            
-                            Text( "Disconnected")
-                                .font(.title3)
-                                .fontWeight(.bold)
-                                .foregroundStyle(.red)
-                        }
-                        .frame(height: 50)
-                    }
+                    
                     ScrollView {
+                        if vm.hideComponent{
+                            VStack(spacing: 10) {
+                                Image(systemName: "wifi.slash")
+                                    .font(.title3)
+                                    .foregroundStyle( .red)
+                                
+                                Text( "Disconnected")
+                                    .font(.title3)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(.red)
+                            }
+                            .frame(height: 50)
+                        }
                         LazyVStack {
                             ForEach(vm.weatherTime.indices, id: \.self) { index in
                                 WeatherRowItem(
