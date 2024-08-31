@@ -12,21 +12,6 @@ struct HomeView: View {
    
     var body: some View {
         ZStack {
-            if vm.isLoading{
-                ZStack{
-                    Color.white
-                        .opacity(0.3)
-                        .ignoresSafeArea()
-                    
-                    ProgressView("Loading...")
-                        .padding()
-                        .background(
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color(.systemBackground))
-                        )
-                        .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
-                }
-            }
             NavigationView {
                 VStack{
                     if vm.hideComponent{
@@ -97,7 +82,21 @@ struct HomeView: View {
                     )
                 }
             }
-         
+            if vm.isLoading{
+                ZStack{
+                    Color.white
+                        .opacity(0.3)
+                        .ignoresSafeArea()
+                    
+                    ProgressView("Loading...")
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color(.systemBackground))
+                        )
+                        .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
+                }
+            }
         }
     }
 }
