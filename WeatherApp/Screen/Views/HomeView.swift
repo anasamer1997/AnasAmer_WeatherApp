@@ -54,6 +54,7 @@ struct HomeView: View {
                             Button(action: {
                                 if(!vm.location.isEmpty){
                                     vm.searchLocation()
+                                    vm.location = ""
                                 }
                             }, label: {
                                 Image(systemName: "magnifyingglass.circle.fill")
