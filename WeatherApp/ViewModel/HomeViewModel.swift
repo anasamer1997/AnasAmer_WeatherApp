@@ -45,7 +45,7 @@ class HomeViewModel:ObservableObject{
                 if !isConnected {
                     Task { @MainActor in
                         self.loadWeatherFromLocalStorage()
-                        self.location = ""
+                       
                     }
                 }else{
                     if !location.isEmpty{
