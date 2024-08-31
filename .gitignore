@@ -1,0 +1,4 @@
+ios/pods
+ios/Pods/Target Support Files
+ios/WeatherApp.xcodeproj/xcuserdata
+Podfile.lock
