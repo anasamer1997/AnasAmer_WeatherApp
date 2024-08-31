@@ -27,9 +27,9 @@ struct WeatherRowItem: View {
                             .resizable()
                             .scaledToFit()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/,height: 100)
+                            .frame(width: 60,height: 100)
                     } placeholder: {
-                            Rectangle().foregroundColor(.gray)
+                           ProgressView()
                     }
                 }
             }
