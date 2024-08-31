@@ -14,7 +14,7 @@ struct WeatherRowItem: View {
     var body: some View {
         HStack {
             VStack(alignment:.leading){
-                Text("Time: \(time)")
+                Text("Date: \(time)")
                 Text("Temperature: \(temperature2M)\(unit == 0 ? "°C": "°F" )")
                 
             }

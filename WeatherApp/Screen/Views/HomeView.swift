@@ -17,29 +17,9 @@ struct HomeView: View {
                     
                     ScrollView {
                         if vm.hideComponent{
-                            VStack(spacing: 10) {
-                                Image(systemName: "wifi.slash")
-                                    .font(.title3)
-                                    .foregroundStyle( .red)
-                                
-                                Text( "Disconnected")
-                                    .font(.title3)
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(.red)
-                            }
-                            .frame(height: 50)
+                            NetworkView()
                         }
-                        LazyVStack {
-                            ForEach(vm.weatherTime.indices, id: \.self) { index in
-                                WeatherRowItem(
-                                    time: vm.weatherTime[index],
-                                    temperature2M: "\(vm.weatherTemp[index])",
-                                    icon: vm.getCodeIcon(vm.weatherCode[index]),
-                                    unit: vm.toFahrenheit
-                                )
-                               
-                            }
-                        }
+                        WeatherListView(vm: vm)
                     }
                     
                     Spacer()
@@ -86,19 +66,7 @@ struct HomeView: View {
                 }
             }
             if vm.isLoading{
-                ZStack{
-                    Color.white
-                        .opacity(0.3)
-                        .ignoresSafeArea()
-                    
-                    ProgressView("Loading...")
-                        .padding()
-                        .background(
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color(.systemBackground))
-                        )
-                        .shadow(radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
-                }
+                LoadingView()
             }
         }
     }
