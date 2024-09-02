@@ -9,11 +9,9 @@ import SwiftUI
 
 @main
 struct WeatherApp: App {
-    @State private var networkMonitor = NetworkMonitor()
     var body: some Scene {
         WindowGroup {
             splashView()
-                .environmentObject(networkMonitor)
         }
     }
 }
