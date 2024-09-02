@@ -8,13 +8,13 @@
 import Foundation
 
 protocol NetworkServiceProtocol {
-    func getJson<T: Codable>(urlString: String, responseType: T.Type, completion: @escaping (Result<T, NetworkError>) -> Void)
+    func getJson(urlString: String, completion: @escaping (Result<Weather, NetworkError>) -> Void)
 }
 
 class NetworkService: NetworkServiceProtocol{
     static let shared = NetworkService()
     private init(){}
-    func getJson<T:Codable>(urlString:String,responseType:T.Type,completion:@escaping(Result<T,NetworkError>) -> Void){
+    func getJson(urlString:String,completion:@escaping(Result<Weather,NetworkError>) -> Void){
         guard let url = URL(string: urlString) else{
             completion(.failure(.invalidURL))
             return
@@ -33,7 +33,7 @@ class NetworkService: NetworkServiceProtocol{
             }
             print(String(data: data, encoding: .utf8)!)
             do{
-                let decodedData = try JSONDecoder().decode(T.self, from: data)
+                let decodedData = try JSONDecoder().decode(Weather.self, from: data)
                 completion(.success(decodedData))
             }catch{
                 completion(.failure(.serverError("Error: \(error.localizedDescription)")))
