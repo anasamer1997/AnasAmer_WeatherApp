@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct splashView: View {
-    @EnvironmentObject private var networkMonitor :NetworkMonitor
     @State private var isActive:Bool = false
     var body: some View {
         ZStack{
