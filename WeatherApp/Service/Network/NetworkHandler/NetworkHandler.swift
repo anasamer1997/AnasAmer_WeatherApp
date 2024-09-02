@@ -12,28 +12,23 @@ class NetworkHandler {
     static let shared = NetworkHandler()
     
     private let networkService: NetworkServiceProtocol
-    private let localStorageService: LocalStorageServiceProtocol
+//    private let localStorageService: LocalStorageServiceProtocol
+    private let coreDataStorageService: CoreDataStorageService
     
     private init() {
         self.networkService = NetworkService.shared
-        self.localStorageService = LocalStorageService.shared
+//        self.localStorageService = LocalStorageService.shared
+        self.coreDataStorageService = CoreDataStorageService.shared
     }
     
-    func fetchAndStoreData<T: Codable>(urlString: String, responseType: T.Type, storageKey: String?, completion: @escaping (Result<T, NetworkError>) -> Void) {
+    func fetchAndStoreData(urlString: String, completion: @escaping (Result<Weather, NetworkError>) -> Void) {
         
         // Fetch data from network
-        networkService.getJson(urlString: urlString, responseType: responseType) { result in
+        networkService.getJson(urlString: urlString) { result in
             switch result {
             case .success(let data):
-                // Save data locally
-                if storageKey != nil {
-                    let saveSuccess = self.localStorageService.save(data: data, forKey: storageKey!)
-                    if saveSuccess {
-                        completion(.success(data))
-                    } else {
-                        completion(.failure(.serverError("Failed to save data locally.")))
-                    }
-                }
+                self.coreDataStorageService.saveWeatherFromLocalStorage(data.hourly)
+                completion(.success(data))
             case .failure(let error):
                 // If network call fails, try to load data from local storage
                 completion(.failure(.serverError("Network request failed with error: \(error)")))
