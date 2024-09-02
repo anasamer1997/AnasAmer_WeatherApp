@@ -44,8 +44,7 @@ class HomeViewModel:ObservableObject{
                 self.hideComponent = !isConnected
                 if !isConnected {
                     Task { @MainActor in
-                        self.loadWeatherFromLocalStorage()
-                       
+                        self.loadWeatherInLocalStorage()
                     }
                 }else{
                     if !location.isEmpty{
@@ -75,26 +74,27 @@ class HomeViewModel:ObservableObject{
     }
     
     @MainActor
-    private func loadFromLocalStorage<T: Codable>(forKey key: String,as type: T.Type,process: (T) -> Void) {
-        if let savedData: T = LocalStorageService.shared.load(forKey: key, as: type) {
-            process(savedData)
-        } else {
-            self.weatherTime = []
-            self.weatherTemp = []
-            self.weatherCode = []
+    private func loadWeatherInLocalStorage(){
+        guard  let data = CoreDataStorageService.shared.loadWeatherInLocalStorage() else{
+            print("Not data in coredata")
+            return
         }
+        self.weatherTime = data.time
+        self.weatherTemp = data.temperature2M
+        self.weatherCode = data.weatherCode
     }
     
-    @MainActor
-    private func loadWeatherFromLocalStorage() {
-        if self.weatherTemp.isEmpty{
-            if let savedData = LocalStorageService.shared.load(forKey: "weather", as: Weather.self) {
-                self.weatherTime = savedData.hourly.formatDate()
-                self.weatherTemp = self.convertTemperatures(savedData.hourly.temperature2M)
-                self.weatherCode = savedData.hourly.weatherCode
-            }
-        }
-    }
+    // MARK: save data in json file
+//    @MainActor
+//    private func loadWeatherFromLocalStorage() {
+//        if self.weatherTemp.isEmpty{
+//            if let savedData = LocalStorageService.shared.load(forKey: "weather", as: Weather.self) {
+//                self.weatherTime = savedData.hourly.formatDate()
+//                self.weatherTemp = self.convertTemperatures(savedData.hourly.temperature2M)
+//                self.weatherCode = savedData.hourly.weatherCode
+//            }
+//        }
+//    }
     
     @MainActor
     func searchLocation() {
@@ -121,7 +121,7 @@ class HomeViewModel:ObservableObject{
     private func fetchWeatherData(lat: Double, long: Double) {
         self.isLoading = true
         
-        NetworkHandler.shared.fetchAndStoreData(urlString: "https://api.open-meteo.com/v1/forecast?latitude=\(lat)&longitude=\(long)&hourly=temperature_2m,precipitation,weather_code&timezone=auto", responseType: Weather.self, storageKey: "weather") {[weak self] result in
+        NetworkHandler.shared.fetchAndStoreData(urlString: "https://api.open-meteo.com/v1/forecast?latitude=\(lat)&longitude=\(long)&hourly=temperature_2m,precipitation,weather_code&timezone=auto") {[weak self] result in
             guard let self = self else { return }
             
             Task { @MainActor in
